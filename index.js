@@ -1,3 +1,4 @@
+require('dotenv').config()
 const http = require('http')
 const express = require('express')
 const app = express()
@@ -9,15 +10,15 @@ const blogSchema = new mongoose.Schema({
   author: String,
   url: String,
   likes: Number
-})
+}) // define schema of blog
 
-const Blog = mongoose.model('Blog', blogSchema)
+const Blog = mongoose.model('Blog', blogSchema) // Blog constructor
 
-const mongoUrl = 'mongodb://localhost/bloglist'
-mongoose.connect(mongoUrl)
+const mongoUrl = process.env.MONGODB_URI
+mongoose.connect(mongoUrl) // mongoose
 
-app.use(cors())
-app.use(express.json())
+app.use(cors()) // correct cross-origin issues
+app.use(express.json()) // enable json support
 
 app.get('/api/blogs', (request, response) => {
   Blog
@@ -37,7 +38,7 @@ app.post('/api/blogs', (request, response) => {
     })
 })
 
-const PORT = 3003
+const PORT = process.env.PORT || 3003
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
