@@ -6,6 +6,14 @@ const blogSchema = new mongoose.Schema({
   url: String,
   likes: Number
 }) // define schema of blog
+
+blogSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+  }
+})
+
 const mongoUrl = config.MONGODB_URI
 mongoose.connect(mongoUrl) // mongoose
 

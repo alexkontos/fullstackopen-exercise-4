@@ -74,6 +74,11 @@ describe('blog utilities', () => {
     const result = helper.totalLikes(blogContent)
     expect(result).toBe(36)
   })
+  test('contains property id instead of _id', async () => {
+    const res = await api
+      .get('/api/blogs')
+    expect(res.body[0].id).toBeDefined();
+  })
 })
 
 describe('api tests', () => {
