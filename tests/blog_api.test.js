@@ -95,7 +95,6 @@ describe('api tests', () => {
       "title": "Test Blog Post",
       "author": "Alex Kontos",
       "url": "url",
-      "likes": 0
     }
     await api
       .post('/api/blogs')
@@ -105,6 +104,8 @@ describe('api tests', () => {
     const responseTitles = res.body.map(blog => blog.title)
     expect(responseTitles).toContain("Test Blog Post")
     expect(res.body).toHaveLength(7)
+    const responseNewPost = res.body.find(blog => blog.title === "Test Blog Post")
+    expect(responseNewPost.likes).toBe(0)
   })
 })
 
