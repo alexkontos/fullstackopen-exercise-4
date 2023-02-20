@@ -1,3 +1,4 @@
+const { rest } = require('lodash')
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
@@ -88,6 +89,22 @@ describe('api tests', () => {
       .expect(200)
       .expect('Content-Type', /application\/json/)
     expect(res.body).toHaveLength(6)
+  })
+  test('make new blog', async () => {
+    const blogPost = {
+      "title": "Test Blog Post",
+      "author": "Alex Kontos",
+      "url": "url",
+      "likes": 0
+    }
+    await api
+      .post('/api/blogs')
+      .send(blogPost)
+
+    const res = await api.get('/api/blogs')
+    const responseTitles = res.body.map(blog => blog.title)
+    expect(responseTitles).toContain("Test Blog Post")
+    expect(res.body).toHaveLength(7)
   })
 })
 
