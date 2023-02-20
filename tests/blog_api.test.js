@@ -99,13 +99,22 @@ describe('api tests', () => {
     await api
       .post('/api/blogs')
       .send(blogPost)
-
+      .expect(201)
     const res = await api.get('/api/blogs')
     const responseTitles = res.body.map(blog => blog.title)
     expect(responseTitles).toContain("Test Blog Post")
     expect(res.body).toHaveLength(7)
     const responseNewPost = res.body.find(blog => blog.title === "Test Blog Post")
     expect(responseNewPost.likes).toBe(0)
+  })
+  test('make bad new blog', async () => {
+    const badBlogPost = {
+      "author": "Alex Kontos",
+    }
+    await api
+      .post('/api/blogs')
+      .send(badBlogPost)
+      .expect(400)
   })
 })
 
